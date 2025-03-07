@@ -1,8 +1,9 @@
-import { Accordion, AccordionDetails, AccordionSummary, Box, Input, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Input, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 
 const Chat = () => {
     const [chatText, setChatText] = useState("");
+    const [chatLog, setChatLog] = useState([]);
 
     const chatTextChange = (e) => {
         console.log("Chat text:", e.target.value);
@@ -12,24 +13,29 @@ const Chat = () => {
         if (e.key == "Enter") {
             console.log("Sending message:", e.target.value);
             setChatText("");
+            setChatLog([...chatLog, "Sinä:" + e.target.value]);
         }
     };
 
     return(
-    <Box>
-        <Accordion defaultExpanded>
-            <AccordionSummary aria-controls="chat-panel-content" id="chat-panel-header">
+    <Box display={"flex"} justifyContent={"right"} position={"sticky"} >
+        <Accordion defaultExpanded sx={{width: "300px"}}>
+            <AccordionSummary aria-controls="chat-panel-content" id="chat-panel-header" sx={{bgcolor: "primary.main", color: "primary.contrastText"}}>
             <Typography>AI-Avustaja</Typography>
             </AccordionSummary>
-                <AccordionDetails>
+                <AccordionDetails sx={{maxHeight: "300px", overflowY: "scroll"}}>
                     <Typography>Moro</Typography>
                     <Typography>Moro</Typography>
                     <Typography>Moro</Typography>
+                    {chatLog.map((viesti, id) => (
+                        <Typography key={id}>{viesti}</Typography>
+                    ))}
                     
-                    <TextField id="chat-textfield" onKeyPress={chatSendMessage} value={chatText} variant="outlined" onChange={chatTextChange}>
-                        
-                    </TextField>
                 </AccordionDetails>
+                <TextField sx={{p: "2px"}} id="chat-textfield" onKeyPress={chatSendMessage} value={chatText} variant="outlined" onChange={chatTextChange}>
+                        
+                </TextField>
+                <Button variant="outlined">Lähetä</Button>
         </Accordion>
     </Box>
     );
