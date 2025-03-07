@@ -10,6 +10,7 @@ import Content from "./components/Content";
 import LanguageSelect from "./components/LanguageSelect";
 import "./i18n";
 import Chat from "./components/Chat";
+import Contact from "./pages/Contact";
 
 function App() {
   return (
@@ -20,7 +21,8 @@ function App() {
         <Content>
           <Routes>
             <Route  path="/" element={<FrontPage />}/>
-            <Route  path="/about" element={<About />}/>
+            <Route  path="/About" element={<About />}/>
+            <Route  path="/Contact" element={<Contact />}/>
           </Routes>
         </Content>
         <Footer />

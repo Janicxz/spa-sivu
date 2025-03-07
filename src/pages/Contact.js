@@ -1,14 +1,14 @@
 import { Box, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
-const FrontPage = () => {
+const Contact = () => {
     const { t } = useTranslation();
 
     return (
-        <Box textAlign={"center"}>
-            <Typography variant="h2">{t("welcome")}</Typography>
+        <Box>
+            <Typography variant="h2">{t("contact-us")}</Typography>
             <Typography >Tekstiä tekstiä  tekstiä</Typography>
         </Box>
     );
 };
-export default FrontPage;
+export default Contact;
