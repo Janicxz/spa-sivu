@@ -16,7 +16,7 @@ const NavBar = () => {
         <Box>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography>Demosivusto OY</Typography>
+                    <Typography>Demosivu</Typography>
                     <Tabs value={selectedTab} onChange={handleChange} textColor="inherit" indicatorColor="secondary">
                         <Tab label={t("nav.home")} component={Link} to="/"/>
                         <Tab label={t("nav.about")} component={Link} to="/About"/>

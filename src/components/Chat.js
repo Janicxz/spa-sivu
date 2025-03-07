@@ -25,20 +25,62 @@ const Chat = () => {
   const [chatOpacity, setChatOpacity] = useState(1); // Opacity of the chat window
   const [chatWaitingResponse, setChatWaitingResponse] = useState(false); // Block user input while waiting for a response
   const timerRef = useRef(null);  // Timer for automatic chat expansion
-  const chatLogRef = useRef(null);
+  const chatLogRef = useRef(null); // Ref to scroll the chat log
 
+  // Refs for Gemini AI
   const genAI = useRef(null);
   const model = useRef(null);
   const chat = useRef(null);
 
   const GEMINI_API_KEY = "";
 
+    /**
+   * Initializes Gemini AI.
+   */
+  const initGeminiAi = () => {
+    try {
+        genAI.current = new GoogleGenerativeAI(GEMINI_API_KEY);
+        model.current = genAI.current.getGenerativeModel({
+          model: "gemini-1.5-flash",
+        });
+        chat.current = model.current.startChat({
+          history: [
+            {
+              role: "user",
+              parts: [{ text: "Hello" }],
+            },
+            {
+              role: "model",
+              parts: [
+                {
+                  text: "System prompt: You are a customer service AI model, respond to the customer in most helpful fashion. User may send messages in Finnish, English or Swedish. Respond in the same language.",
+                },
+              ],
+            },
+          ],
+        });
+      } catch (error) {
+        console.error("Error initializing gemini AI:", error);
+        setChatLog([
+          ...chatLog,
+          {
+            role: "model",
+            text: "AI-assistant is currently unavailable. Try again later.",
+          },
+        ]);
+      }
+  };
+
+
   /**
    * Gets response from Gemini AI to the current chat message and updates the chat log.
    */
   const sendMessageGemini = async () => {
-    console.log("Chatlog:", chatLog);
     if (chatText === "") return; // Don't send empty messages
+
+    if (genAI.current === null) {
+        initGeminiAi();
+    }
 
     try {
         // Send message to Gemini
@@ -101,41 +143,6 @@ const Chat = () => {
     }
   };
 
-  const initGeminiAi = () => {
-    // Init gemini AI
-    try {
-        genAI.current = new GoogleGenerativeAI(GEMINI_API_KEY);
-        model.current = genAI.current.getGenerativeModel({
-          model: "gemini-1.5-flash",
-        });
-        chat.current = model.current.startChat({
-          history: [
-            {
-              role: "user",
-              parts: [{ text: "Hello" }],
-            },
-            {
-              role: "model",
-              parts: [
-                {
-                  text: "System prompt: You are a customer service AI model, respond to the customer in most helpful fashion.",
-                },
-              ],
-            },
-          ],
-        });
-      } catch (error) {
-        console.error("Error initializing gemini AI:", error);
-        setChatLog([
-          ...chatLog,
-          {
-            role: "model",
-            text: "AI-assistant is currently unavailable. Try again later.",
-          },
-        ]);
-      }
-  };
-
   /**
    * Effect to automatically expand the chat window after 5 seconds on initial load.
    */
@@ -144,8 +151,6 @@ const Chat = () => {
        setChatExpanded(true);
     }, 5000);
 
-    initGeminiAi();
-
     return () => clearTimeout(timerRef.current); // Cleanup timer on unmount
   }, []);
 
@@ -153,7 +158,6 @@ const Chat = () => {
    * Effect to update the chat window's opacity based on its expanded state.
    */
   useEffect(() => {
-    //console.log("Chat expanded:", chatExpanded);
     chatExpanded ? setChatOpacity(1) : setChatOpacity(0.8);
   }, [chatExpanded]);
 
