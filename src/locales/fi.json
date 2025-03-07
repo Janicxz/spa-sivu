@@ -1,4 +1,9 @@
 {
+    "nav": {
+        "home": "Etusivu",
+        "about": "Tietoa meistä",
+        "contact": "Yhteydenotto"
+    },
     "about": "Tietoa meistä",
     "welcome": "Tervetuloa etusivulle."
 }

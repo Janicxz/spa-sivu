@@ -1,4 +1,4 @@
-import { Box, Button, IconButton } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { useTranslation } from "react-i18next";
 
 const LanguageSelect = () => {

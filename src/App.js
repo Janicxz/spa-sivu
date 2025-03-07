@@ -7,9 +7,7 @@ import NavBar from "./components/NavBar";
 import FrontPage from "./pages/Frontpage";
 import About from "./pages/About";
 import Content from "./components/Content";
-import LanguageSelect from "./components/LanguageSelect";
 import "./i18n";
-import Chat from "./components/Chat";
 import Contact from "./pages/Contact";
 
 function App() {

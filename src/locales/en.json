@@ -1,4 +1,9 @@
 {
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "contact": "Contact"
+    },
     "about": "About us",
     "welcome": "Welcome to the frontpage."
 }
